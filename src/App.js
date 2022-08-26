@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import "./App.css";
+import Card from "./Card";
 
 function App() {
+  const [people, setPeople] = useState([]);
+
+  useEffect(() => {
+    const url = `https://fakerapi.it/api/v1/persons?_quantity=5`;
+
+    Axios(url)
+      .then((res) => {
+        console.log(res.data.data);
+        setPeople(res?.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="flex justify-center">
+        <h1>Cool hover card animation</h1>
+      </div>
+      <div className="container">
+        <Card people={people} />
+      </div>
+    </>
   );
 }
 
